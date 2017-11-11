@@ -80,4 +80,4 @@ echo speed_down.value: "$CURR_DN"
 #echo SNR_up.value: "$SNR_UP"
 #echo SNR_down.value: "$SNR_DN"
 
-
+# end hg612stats
