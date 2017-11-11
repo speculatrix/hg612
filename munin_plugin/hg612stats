@@ -73,11 +73,11 @@ CURR_DN=`awk '/^Bearer:	0/{ print $11 }' < "$HGFILE"`
 SNR_UP=`awk '/^SNR \(dB\):/{ print $3 }' < "$HGFILE"`
 SNR_DN=`awk '/^SNR \(dB\):/{ print $4 }' < "$HGFILE"`
 
-echo sync_up.value: "$MAX_UP"
-echo sync_down.value: "$MAX_DN"
-echo speed_up.value: "$CURR_UP"
-echo speed_down.value: "$CURR_DN"
-#echo SNR_up.value: "$SNR_UP"
-#echo SNR_down.value: "$SNR_DN"
+echo sync_up.value "$MAX_UP"
+echo sync_down.value "$MAX_DN"
+echo speed_up.value "$CURR_UP"
+echo speed_down.value "$CURR_DN"
+#echo SNR_up.value "$SNR_UP"
+#echo SNR_down.value "$SNR_DN"
 
-# end hg612stats
+
