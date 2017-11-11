@@ -21,14 +21,15 @@ if [ "$1" = "config" ]; then
 	echo "graph_category network"
 	echo "graph_info This graph shows stats from the HG612 xDSL modem"
 	echo "sync_up.label Sync speed up"
-	echo "sync_down Sync speed down"
+	echo "sync_down.label Sync speed down"
 	echo "speed_up.label Speed Up"
-	echo "speed_down Speed down"
+	echo "speed_down.label Speed down"
 	echo "SNR_up.label SNR up"
 	echo "SNR_down.label SNR down"
 	exit 0
 fi
 
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 
 #if /bin/false ; then
@@ -72,11 +73,11 @@ CURR_DN=`awk '/^Bearer:	0/{ print $11 }' < "$HGFILE"`
 SNR_UP=`awk '/^SNR \(dB\):/{ print $3 }' < "$HGFILE"`
 SNR_DN=`awk '/^SNR \(dB\):/{ print $4 }' < "$HGFILE"`
 
-echo sync_up: "$MAX_UP"
-echo sync_down: "$MAX_DN"
-echo speed_up: "$CURR_UP"
-echo speed_down: "$CURR_DN"
-echo SNR_up: "$SNR_UP"
-echo SNR_down: "$SNR_DN"
+echo sync_up.value: "$MAX_UP"
+echo sync_down.value: "$MAX_DN"
+echo speed_up.value: "$CURR_UP"
+echo speed_down.value: "$CURR_DN"
+#echo SNR_up.value: "$SNR_UP"
+#echo SNR_down.value: "$SNR_DN"
 
-
+# end hg612stats
