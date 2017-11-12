@@ -20,12 +20,16 @@ if [ "$1" = "config" ]; then
 	echo "graph_title HG612 Stats on $HOST"
 	echo "graph_category network"
 	echo "graph_info This graph shows stats from the HG612 xDSL modem"
-	echo "sync_up.label Sync speed up"
-	echo "sync_down.label Sync speed down"
-	echo "speed_up.label Speed Up"
-	echo "speed_down.label Speed down"
+	echo "sync_up.label Sync speed up Mb/s"
+	echo "sync_down.label Sync speed down Mb/s"
+	echo "speed_up.label Speed Up Mb/s"
+	echo "speed_down.label Speed down Mb/s"
 	echo "SNR_up.label SNR up"
 	echo "SNR_down.label SNR down"
+	echo "ATTN_up.label Attenuation up dB"
+	echo "ATTN_down.label Attenuation down dB"
+	echo "PWR_up.label Power up dBm"
+	echo "PWR_down.label Power down dBm"
 	exit 0
 fi
 
@@ -63,21 +67,42 @@ fi
 #Bearer: 0, Upstream rate = 7787 Kbps, Downstream rate = 40000 Kbps
 
 
-MAX_UP=`awk '/^Max:/{ print $5 }' < "$HGFILE"`
-MAX_DN=`awk '/^Max:/{ print $10 }' < "$HGFILE"`
+SYNC_UP=`awk '/^Max:/{ print $5 }' < "$HGFILE"`
+SYNC_DN=`awk '/^Max:/{ print $10 }' < "$HGFILE"`
 CURR_UP=`awk '/^Bearer:	0/{ print $6 }' < "$HGFILE"`
 CURR_DN=`awk '/^Bearer:	0/{ print $11 }' < "$HGFILE"`
 
-#SNR (dB):        6.9             3.9
+# scale the speeds down to megabits, otherwise the SNR values don't show
+echo -n "sync_up.value "
+echo "scale = 2 ; ( $SYNC_UP + 9.9 ) / 1000.0" | bc
 
-SNR_UP=`awk '/^SNR \(dB\):/{ print $3 }' < "$HGFILE"`
-SNR_DN=`awk '/^SNR \(dB\):/{ print $4 }' < "$HGFILE"`
+echo -n "sync_down.value "
+echo "scale = 2 ; ( $SYNC_DN + 9.9 ) / 1000.0" | bc
 
-echo sync_up.value "$MAX_UP"
-echo sync_down.value "$MAX_DN"
-echo speed_up.value "$CURR_UP"
-echo speed_down.value "$CURR_DN"
-#echo SNR_up.value "$SNR_UP"
-#echo SNR_down.value "$SNR_DN"
+echo -n "speed_up.value "
+echo "scale = 2 ; ( $CURR_UP + 9.9 ) / 1000.0" | bc
+
+echo -n "speed_down.value "
+echo "scale = 2 ; ( $CURR_DN + 9.9 ) / 1000.0" | bc
+
+
+#                Down            Up
+#SNR (dB):        6.9             3.8
+#Attn(dB):        24.0            0.0
+#Pwr(dBm):        12.0           -0.5
+SNR_UP=`awk '/^SNR \(dB\):/{ print $4 }' < "$HGFILE"`
+SNR_DN=`awk '/^SNR \(dB\):/{ print $3 }' < "$HGFILE"`
+echo "SNR_up.value $SNR_UP"
+echo "SNR_down.value $SNR_DN"
+
+ATTN_UP=`awk '/^Attn\(dB\):/{ print $4 }' < "$HGFILE"`
+ATTN_DN=`awk '/^Attn\(dB\):/{ print $3 }' < "$HGFILE"`
+echo "ATTN_up.value $ATTN_UP"
+echo "ATTN_down.value $ATTN_DN"
+
+PWR_UP=`awk '/^Pwr\(dBm\):/{ print $4 }' < "$HGFILE"`
+PWR_DN=`awk '/^Pwr\(dBm\):/{ print $3 }' < "$HGFILE"`
+echo "PWR_up.value $PWR_UP"
+echo "PWR_down.value $PWR_DN"
 
 
