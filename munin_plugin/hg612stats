@@ -95,13 +95,13 @@ SNR_DN=`awk '/^SNR \(dB\):/{ print $3 }' < "$HGFILE"`
 echo "SNR_up.value $SNR_UP"
 echo "SNR_down.value $SNR_DN"
 
-ATTN_UP=`awk '/^Attn\(dB\):/{ print $4 }' < "$HGFILE"`
-ATTN_DN=`awk '/^Attn\(dB\):/{ print $3 }' < "$HGFILE"`
+ATTN_UP=`awk '/^Attn\(dB\):/{ print $3 }' < "$HGFILE"`
+ATTN_DN=`awk '/^Attn\(dB\):/{ print $2 }' < "$HGFILE"`
 echo "ATTN_up.value $ATTN_UP"
 echo "ATTN_down.value $ATTN_DN"
 
-PWR_UP=`awk '/^Pwr\(dBm\):/{ print $4 }' < "$HGFILE"`
-PWR_DN=`awk '/^Pwr\(dBm\):/{ print $3 }' < "$HGFILE"`
+PWR_UP=`awk '/^Pwr\(dBm\):/{ print $3 }' < "$HGFILE"`
+PWR_DN=`awk '/^Pwr\(dBm\):/{ print $2 }' < "$HGFILE"`
 echo "PWR_up.value $PWR_UP"
 echo "PWR_down.value $PWR_DN"
 
