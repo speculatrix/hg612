@@ -1,6 +1,6 @@
 # hg612
 
-This is a collection of scripts for the Huawei HG612.
+This will be a collection of scripts for the Huawei HG612.
 
 You need to have unlocked it and restore the full HG612
 firmware in order to use these.
